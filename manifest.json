@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "What's That Font",
+  "version": "1.0.0",
+  "description": "Hover over any page element to see its font family and font size.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "Toggle What's That Font",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "commands": {
+    "toggle-font-inspector": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "Toggle font inspector"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["tooltip.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
