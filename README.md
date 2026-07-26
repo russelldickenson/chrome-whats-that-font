@@ -1,11 +1,8 @@
-# What's That Font
+# What's That Font?
 
 A Google Chrome extension that shows a tooltip with the font family, font size, and font weight of whatever page element your cursor is currently hovering over.
 
-> [!IMPORTANT]
-> This app was entirely vibe-coded, AKA "AI slop". There are almost certainly similar apps
-> of better quality than this one. I created this mainly to experiment with agentic AI.
-> Use it at your own risk.
+<img src="whats-that-font.png" width="640" alt="Tooltip-style bubble listing the font attributes of some text in a web browser">
 
 ## Purpose
 
@@ -26,10 +23,10 @@ This extension is not yet published to the Chrome web store, so you must install
 3. Hover over any element to see its font details in a tooltip.
 4. Click the icon again (or press the shortcut) to deactivate.
 
-## Author
-
-- **Russell Dickenson** <russelldickenson@github.com>
-
 ## License
 
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+GPL v3 — see [LICENSE](LICENSE) for details.
+
+## Author
+
+**Russell Dickenson** — [GitHub](https://github.com/russelldickenson)
