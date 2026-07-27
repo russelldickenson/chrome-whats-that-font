@@ -1,32 +1,78 @@
+<p align="center">
+  <img src="whats-that-font-banner.svg" alt="What's That Font? Typography Inspector Banner" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Manifest-V3-blue?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome Manifest V3">
+  <img src="https://img.shields.io/badge/version-1.0.0-orange?style=for-the-badge" alt="Version 1.0.0">
+  <img src="https://img.shields.io/badge/license-GPL--3.0-green?style=for-the-badge" alt="License GPL 3.0">
+</p>
+
+---
+
 # What's That Font?
 
-A Google Chrome extension that shows a tooltip with the font family, font size, and font weight of whatever page element your cursor is currently hovering over.
+A lightweight Google Chrome extension that lets you inspect the typography of any element on a webpage instantly on hover.
 
-<img src="whats-that-font.png" width="640" alt="Tooltip-style bubble listing the font attributes of some text in a web browser">
+---
 
-## Purpose
+## 🎯 Purpose
 
-Ever landed on a website and wondered, "What font is that?" **What's That Font** lets you quickly inspect typography without opening DevTools. Just activate the extension and move your mouse over the text you want to identify.
+Ever landed on a website and wondered, **"What font is that?"** 
 
-## Install
+**What's That Font** allows designers, developers, and typography enthusiasts to quickly inspect typography details without having to open the Chrome DevTools. Simply activate the extension and hover over any text to view its details in a sleek cursor-following tooltip.
 
-This extension is not yet published to the Chrome web store, so you must install it locally.
+---
 
-1. Open `chrome://extensions` in Google Chrome.
-2. Enable **Developer mode** in the top-right toggle.
-3. Click **Load unpacked** and select the extension directory.
+## 🚀 Key Features
 
-## Usage
+*   **Live Hover Inspection**: Move your cursor over any element to see its typography details instantly.
+*   **⌨️ Keyboard Toggle**: Easily toggle the inspector on/off using the `Ctrl+Shift+F` (or `Cmd+Shift+F` on Mac) shortcut.
+*   **💡 Accurate Font Resolution**: Displays the computed font-family (showing the first fallback option), font-size, and font-weight.
+*   **✨ Sleek Glassmorphic UI**: Uses a modern dark tooltip with a backdrop-blur effect that stays out of the way.
+*   **🔔 Action Feedback**: Displays a toast notification letting you know when the inspector is enabled or disabled.
 
-1. Visit any webpage.
-2. Click the **What's That Font** toolbar icon (or press `Ctrl+Shift+F` / `Cmd+Shift+F`).
-3. Hover over any element to see its font details in a tooltip.
-4. Click the icon again (or press the shortcut) to deactivate.
+---
 
-## License
+## 📸 Preview
+
+Here is the extension in action, displaying font family, size, and weight:
+
+<p align="center">
+  <img src="whats-that-font.png" width="640" alt="Tooltip bubble listing font family, size, and weight on hover" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+</p>
+
+---
+
+## 📦 Installation
+
+Since this extension is not yet published to the Chrome Web Store, you can install it locally as a developer extension:
+
+1.  Clone or download this repository to your local machine.
+2.  Open **Google Chrome** and navigate to `chrome://extensions`.
+3.  Enable **Developer mode** using the toggle switch in the top-right corner.
+4.  Click the **Load unpacked** button in the top-left corner.
+5.  Select the directory containing the extension files.
+
+---
+
+## 🛠️ Usage
+
+1.  Navigate to any webpage.
+2.  Activate the inspector by:
+    *   Clicking the **What's That Font** icon in the toolbar.
+    *   Using the shortcut `Ctrl+Shift+F` (Windows/Linux) or `Cmd+Shift+F` (macOS).
+3.  Hover over any text element to inspect its typography.
+4.  To deactivate, click the extension icon or use the shortcut again.
+
+---
+
+## 📄 License
 
 GPL v3 — see [LICENSE](LICENSE) for details.
 
-## Author
+---
+
+## ✍️ Author
 
 **Russell Dickenson** — [GitHub](https://github.com/russelldickenson)

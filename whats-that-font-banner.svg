@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="100%" height="100%" style="border-radius: 12px; font-family: system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Glowing Background Blurs -->
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="50"/>
+    </filter>
+
+    <!-- Drop Shadow for Tooltip -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(99, 102, 241, 0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg-gradient)"/>
+  
+  <!-- Glowing blobs -->
+  <circle cx="150" cy="120" r="100" fill="#4f46e5" opacity="0.18" filter="url(#blur)"/>
+  <circle cx="650" cy="200" r="130" fill="#0891b2" opacity="0.14" filter="url(#blur)"/>
+
+  <!-- Grid overlay -->
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Logo/Title in top-left -->
+  <g transform="translate(40, 45)">
+    <!-- Small Decorative Icon -->
+    <rect width="28" height="28" rx="6" fill="#38bdf8" fill-opacity="0.15" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="14" y="19" fill="#38bdf8" font-size="14" font-weight="900" text-anchor="middle">f</text>
+    
+    <text x="40" y="13" fill="#f8fafc" font-size="15" font-weight="800" letter-spacing="0.05em">WHAT'S THAT FONT?</text>
+    <text x="40" y="25" fill="#64748b" font-size="9" font-weight="700" letter-spacing="0.1em">CHROME TYPOGRAPHY INSPECTOR</text>
+  </g>
+
+  <!-- Typography Metrics Lines -->
+  <g opacity="0.85">
+    <line x1="80" y1="70" x2="520" y2="70" stroke="#4338ca" stroke-width="0.75" stroke-dasharray="4,4" opacity="0.25"/>
+    <line x1="80" y1="90" x2="520" y2="90" stroke="#38bdf8" stroke-width="0.75" stroke-dasharray="4,4" opacity="0.35"/>
+    <line x1="80" y1="140" x2="520" y2="140" stroke="#10b981" stroke-width="0.75" stroke-dasharray="4,4" opacity="0.3"/>
+    <line x1="80" y1="210" x2="520" y2="210" stroke="#ef4444" stroke-width="1.25" opacity="0.4"/>
+    <line x1="80" y1="260" x2="520" y2="260" stroke="#f59e0b" stroke-width="0.75" stroke-dasharray="4,4" opacity="0.25"/>
+
+    <!-- Labels for metrics lines -->
+    <text x="530" y="73" fill="#4338ca" font-family="monospace" font-size="9" font-weight="600" opacity="0.5">Ascender</text>
+    <text x="530" y="93" fill="#38bdf8" font-family="monospace" font-size="9" font-weight="600" opacity="0.6">Cap Height</text>
+    <text x="530" y="143" fill="#10b981" font-family="monospace" font-size="9" font-weight="600" opacity="0.5">Mean Line</text>
+    <text x="530" y="213" fill="#ef4444" font-family="monospace" font-size="9" font-weight="700" opacity="0.7">Baseline</text>
+    <text x="530" y="263" fill="#f59e0b" font-family="monospace" font-size="9" font-weight="600" opacity="0.5">Descender</text>
+  </g>
+
+  <!-- Specimen Letters -->
+  <g>
+    <!-- Serif 'F' -->
+    <text x="110" y="210" fill="#f8fafc" font-family="Georgia, serif" font-size="120" font-weight="bold">F</text>
+    
+    <!-- Serif 'g' (demonstrating descender) -->
+    <text x="210" y="210" fill="#cbd5e1" font-family="Georgia, serif" font-size="120">g</text>
+    
+    <!-- Sans-serif 'a' (the active target) -->
+    <text x="320" y="210" fill="#e2e8f0" font-family="system-ui, -apple-system, sans-serif" font-size="110" font-weight="300">a</text>
+    
+    <!-- Sans-serif 't' -->
+    <text x="400" y="210" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="115" font-weight="500">t</text>
+  </g>
+
+  <!-- Inspection Visual Indicators on 'a' -->
+  <g>
+    <!-- Bounding Box -->
+    <rect x="308" y="122" width="76" height="96" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3" rx="4"/>
+    
+    <!-- Corner brackets -->
+    <path d="M 308 134 L 308 122 L 320 122" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 372 122 L 384 122 L 384 134" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 308 206 L 308 218 L 320 218" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 372 218 L 384 218 L 384 206" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Pointer Crosshair -->
+    <circle cx="346" cy="170" r="3" fill="#38bdf8"/>
+    <line x1="336" y1="170" x2="356" y2="170" stroke="#38bdf8" stroke-width="1"/>
+    <line x1="346" y1="160" x2="346" y2="180" stroke="#38bdf8" stroke-width="1"/>
+  </g>
+
+  <!-- Tooltip Bubble (Glassmorphic Inspector Tooltip) -->
+  <g transform="translate(425, 80)" filter="url(#shadow)">
+    <!-- Card Background -->
+    <rect width="215" height="120" rx="10" fill="#0f172a" fill-opacity="0.92" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1"/>
+    
+    <!-- Inner subtle top glow -->
+    <path d="M 1 10 Q 1 1 10 1 L 205 1 Q 214 1 214 10 L 214 15 L 1 15 Z" fill="rgba(255, 255, 255, 0.03)"/>
+
+    <!-- Tooltip Content -->
+    <!-- Header -->
+    <text x="16" y="26" fill="#38bdf8" font-size="11.5" font-weight="800" letter-spacing="0.05em">What's That Font?</text>
+    
+    <!-- Divider -->
+    <line x1="16" y1="36" x2="199" y2="36" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1"/>
+
+    <!-- Row 1: Font -->
+    <text x="16" y="56" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="0.07em">FONT</text>
+    <text x="199" y="56" fill="#38bdf8" font-family="monospace" font-size="11.5" font-weight="700" text-anchor="end">system-ui</text>
+
+    <!-- Row 2: Size -->
+    <text x="16" y="80" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="0.07em">SIZE</text>
+    <text x="199" y="80" fill="#f1f5f9" font-size="11" font-weight="600" text-anchor="end">110px</text>
+
+    <!-- Row 3: Weight -->
+    <text x="16" y="104" fill="#94a3b8" font-size="9" font-weight="700" letter-spacing="0.07em">WEIGHT</text>
+    <text x="199" y="104" fill="#f1f5f9" font-size="11" font-weight="600" text-anchor="end">300 (Light)</text>
+  </g>
+
+  <!-- Mouse Cursor Pointer -->
+  <g transform="translate(352, 174)">
+    <path d="M 0 0 L 15 11 L 8.5 12 L 12 19 L 9 20 L 5.5 13 L 2 16.5 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+</svg>

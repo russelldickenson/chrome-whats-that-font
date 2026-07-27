@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>What's That Font - README Preview</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+      transition: background-color 0.3s;
+    }
+    @media (max-width: 767px) {
+      body {
+        padding: 15px;
+      }
+    }
+    /* Toggle theme buttons */
+    .theme-toggle-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .theme-btn {
+      background-color: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .theme-btn:hover {
+      background-color: #30363d;
+      border-color: #8b949e;
+    }
+    .theme-btn.active {
+      background-color: #1f6feb;
+      color: #ffffff;
+      border-color: #388bfd;
+    }
+  </style>
+</head>
+<body class="markdown-body">
+
+  <div class="theme-toggle-container">
+    <button id="btn-light" class="theme-btn" onclick="setTheme('light')">☀️ Light Mode</button>
+    <button id="btn-dark" class="theme-btn" onclick="setTheme('dark')">🌙 Dark Mode</button>
+  </div>
+
+  <div id="content">
+    <p align="center">
+      <img src="whats-that-font-banner.svg" alt="What's That Font? Typography Inspector Banner" width="100%">
+    </p>
+
+    <p align="center">
+      <img src="https://img.shields.io/badge/Manifest-V3-blue?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome Manifest V3">
+      <img src="https://img.shields.io/badge/version-1.0.0-orange?style=for-the-badge" alt="Version 1.0.0">
+      <img src="https://img.shields.io/badge/license-GPL--3.0-green?style=for-the-badge" alt="License GPL 3.0">
+    </p>
+
+    <hr>
+
+    <h1>What's That Font?</h1>
+
+    <p>A lightweight Google Chrome extension that lets you inspect the typography of any element on a webpage instantly on hover.</p>
+
+    <hr>
+
+    <h2>🎯 Purpose</h2>
+
+    <p>Ever landed on a website and wondered, <strong>"What font is that?"</strong></p>
+
+    <p><strong>What's That Font</strong> allows designers, developers, and typography enthusiasts to quickly inspect typography details without having to open the Chrome DevTools. Simply activate the extension and hover over any text to view its details in a sleek cursor-following tooltip.</p>
+
+    <hr>
+
+    <h2>🚀 Key Features</h2>
+
+    <ul>
+      <li><strong>Live Hover Inspection</strong>: Move your cursor over any element to see its typography details instantly.</li>
+      <li><strong>⌨️ Keyboard Toggle</strong>: Easily toggle the inspector on/off using the <code>Ctrl+Shift+F</code> (or <code>Cmd+Shift+F</code> on Mac) shortcut.</li>
+      <li><strong>💡 Accurate Font Resolution</strong>: Displays the computed font-family (showing the first fallback option), font-size, and font-weight.</li>
+      <li><strong>✨ Sleek Glassmorphic UI</strong>: Uses a modern dark tooltip with a backdrop-blur effect that stays out of the way.</li>
+      <li><strong>🔔 Action Feedback</strong>: Displays a toast notification letting you know when the inspector is enabled or disabled.</li>
+    </ul>
+
+    <hr>
+
+    <h2>📸 Preview</h2>
+
+    <p>Here is the extension in action, displaying font family, size, and weight:</p>
+
+    <p align="center">
+      <img src="whats-that-font.png" width="640" alt="Tooltip bubble listing font family, size, and weight on hover" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+    </p>
+
+    <hr>
+
+    <h2>📦 Installation</h2>
+
+    <p>Since this extension is not yet published to the Chrome Web Store, you can install it locally as a developer extension:</p>
+
+    <ol>
+      <li>Clone or download this repository to your local machine.</li>
+      <li>Open <strong>Google Chrome</strong> and navigate to <code>chrome://extensions</code>.</li>
+      <li>Enable <strong>Developer mode</strong> using the toggle switch in the top-right corner.</li>
+      <li>Click the <strong>Load unpacked</strong> button in the top-left corner.</li>
+      <li>Select the directory containing the extension files.</li>
+    </ol>
+
+    <hr>
+
+    <h2>🛠️ Usage</h2>
+
+    <ol>
+      <li>Navigate to any webpage.</li>
+      <li>Activate the inspector by:
+        <ul>
+          <li>Clicking the <strong>What's That Font</strong> icon in the toolbar.</li>
+          <li>Using the shortcut <code>Ctrl+Shift+F</code> (Windows/Linux) or <code>Cmd+Shift+F</code> (macOS).</li>
+        </ul>
+      </li>
+      <li>Hover over any text element to inspect its typography.</li>
+      <li>To deactivate, click the extension icon or use the shortcut again.</li>
+    </ol>
+
+    <hr>
+
+    <h2>📄 License</h2>
+
+    <p>GPL v3 — see <a href="LICENSE">LICENSE</a> for details.</p>
+
+    <hr>
+
+    <h2>✍️ Author</h2>
+
+    <p><strong>Russell Dickenson</strong> — <a href="https://github.com/russelldickenson">GitHub</a></p>
+  </div>
+
+  <script>
+    // Detect system preferred color scheme
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+
+    function setTheme(theme) {
+      const htmlEl = document.documentElement;
+      const btnDark = document.getElementById('btn-dark');
+      const btnLight = document.getElementById('btn-light');
+
+      if (theme === 'dark') {
+        htmlEl.setAttribute('data-color-mode', 'dark');
+        htmlEl.setAttribute('data-dark-theme', 'dark');
+        document.body.style.backgroundColor = '#0d1117';
+        btnDark.classList.add('active');
+        btnLight.classList.remove('active');
+      } else {
+        htmlEl.setAttribute('data-color-mode', 'light');
+        htmlEl.setAttribute('data-light-theme', 'light');
+        document.body.style.backgroundColor = '#ffffff';
+        btnLight.classList.add('active');
+        btnDark.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
