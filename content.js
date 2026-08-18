@@ -8,6 +8,9 @@
   let active = false;
   let hoverTarget = null;
   let tooltipEl = null;
+  let rafId = null;
+  let pendingPosition = null;
+  let pendingScroll = false;
 
   const TOOLTIP_ID = "__fontTooltip";
 
@@ -26,6 +29,7 @@
       tooltipEl = null;
     }
     hoverTarget = null;
+    cancelScheduledUpdate();
   }
 
   function getFontFamily(style) {
@@ -114,6 +118,33 @@
     return div.innerHTML;
   }
 
+  // Coalesce mousemove/scroll positioning into one update per animation
+  // frame, since getBoundingClientRect() forces a layout and both events
+  // can fire far faster than the screen refreshes.
+  function scheduleUpdate() {
+    if (rafId !== null) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      if (pendingPosition) {
+        positionTooltip(pendingPosition.clientX, pendingPosition.clientY);
+      } else if (pendingScroll && hoverTarget) {
+        const rect = hoverTarget.getBoundingClientRect();
+        positionTooltip(rect.left + rect.width / 2, rect.top);
+      }
+      pendingPosition = null;
+      pendingScroll = false;
+    });
+  }
+
+  function cancelScheduledUpdate() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    pendingPosition = null;
+    pendingScroll = false;
+  }
+
   function onMouseMove(event) {
     if (!active) return;
 
@@ -125,13 +156,14 @@
       updateTooltipContent(target);
     }
 
-    positionTooltip(clientX, clientY);
+    pendingPosition = { clientX, clientY };
+    scheduleUpdate();
   }
 
   function onScroll() {
     if (!active || !hoverTarget) return;
-    const rect = hoverTarget.getBoundingClientRect();
-    positionTooltip(rect.left + rect.width / 2, rect.top);
+    pendingScroll = true;
+    scheduleUpdate();
   }
 
   function setActive(isActive) {
@@ -149,10 +181,12 @@
   }
 
   chrome.runtime?.onMessage?.addListener?.((message) => {
-    if (message?.action === "toggle") {
-      window.__fontInspectorActive = !window.__fontInspectorActive;
-      showToast(window.__fontInspectorActive);
-      setActive(window.__fontInspectorActive);
+    if (message?.action === "setActive") {
+      const isActive = !!message.active;
+      if (isActive !== active) {
+        showToast(isActive);
+      }
+      setActive(isActive);
     }
   });
 
@@ -174,8 +208,13 @@
     }, 1500);
   }
 
-  // Restore state when the content script is re-injected.
-  if (window.__fontInspectorActive) {
-    setActive(true);
-  }
+  // Restore state after a full navigation, where the previous document
+  // (and its in-memory state) is gone but the background worker still
+  // remembers whether this tab had the inspector on.
+  chrome.runtime?.sendMessage?.({ action: "getState" }, (response) => {
+    if (chrome.runtime.lastError) return; // extension context gone/reloading
+    if (response?.active) {
+      setActive(true);
+    }
+  });
 })();
