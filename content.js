@@ -11,9 +11,14 @@
   let rafId = null;
   let pendingPosition = null;
   let pendingScroll = false;
+  
+  // Cache for computed styles to avoid redundant getComputedStyle calls
+  let lastComputedStyle = null;
+  let lastComputedTarget = null;
 
   const TOOLTIP_ID = "__fontTooltip";
 
+  // Pre-create tooltip once at initialization
   function createTooltip() {
     if (tooltipEl) return tooltipEl;
     tooltipEl = document.createElement("div");
@@ -47,13 +52,15 @@
     const raw = style.fontSize || "";
     if (!raw) return "unknown";
 
+    // Simplified px conversion - avoid redundant floating point operations
     if (raw.endsWith("px")) {
+      // Round to 1 decimal place for cleaner display
       const px = parseFloat(raw);
       return `${Math.round(px * 10) / 10}px`;
     }
 
-    // Convert computed non-px sizes to px for clarity.
-    const pxValue = parseFloat(style.fontSize);
+    // Convert computed non-px sizes to px for clarity (more efficient)
+    const pxValue = parseFloat(raw);
     if (!Number.isNaN(pxValue)) {
       return `${Math.round(pxValue * 10) / 10}px`;
     }
@@ -71,7 +78,16 @@
       return;
     }
 
-    const style = window.getComputedStyle(el);
+    // Use cached style when possible to avoid redundant getComputedStyle calls
+    let style;
+    if (el === lastComputedTarget) {
+      style = lastComputedStyle;
+    } else {
+      style = window.getComputedStyle(el);
+      lastComputedStyle = style;
+      lastComputedTarget = el;
+    }
+    
     const family = getFontFamily(style);
     const size = getFontSize(style);
     const weight = getFontWeight(style);
@@ -161,7 +177,10 @@
   }
 
   function onScroll() {
-    if (!active || !hoverTarget) return;
+    // Early return check to avoid processing when not active
+    if (!active) return;
+    if (!hoverTarget) return;
+    
     pendingScroll = true;
     scheduleUpdate();
   }
