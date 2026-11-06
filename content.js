@@ -17,7 +17,10 @@
   let lastElementFromPoint = 0;
   const ELEMENT_FROM_POINT_INTERVAL = 50; // ms
   
-  // Cache for computed styles to avoid redundant getComputedStyle calls
+  // Cache for computed styles to avoid redundant getComputedStyle calls.
+  // Defer computation to rAF so rapid element switches in one frame
+  // only compute the last one's style.
+  let pendingTarget = null;
   let lastComputedStyle = null;
   let lastComputedTarget = null;
 
@@ -76,23 +79,13 @@
     return style.fontWeight || "normal";
   }
 
-  function updateTooltipContent(el) {
+  function updateTooltipContent(el, style) {
     const tooltip = createTooltip();
     if (!el) {
       tooltip.style.display = "none";
       return;
     }
 
-    // Use cached style when possible to avoid redundant getComputedStyle calls
-    let style;
-    if (el === lastComputedTarget) {
-      style = lastComputedStyle;
-    } else {
-      style = window.getComputedStyle(el);
-      lastComputedStyle = style;
-      lastComputedTarget = el;
-    }
-    
     const family = getFontFamily(style);
     const size = getFontSize(style);
     const weight = getFontWeight(style);
@@ -141,11 +134,28 @@
 
   // Coalesce mousemove/scroll positioning into one update per animation
   // frame, since getBoundingClientRect() forces a layout and both events
-  // can fire far faster than the screen refreshes.
+  // can fire far faster than the screen refreshes. Also defer style
+  // computation to rAF so rapid element switches in one frame only
+  // compute the last one's style.
   function scheduleUpdate() {
     if (rafId !== null) return;
     rafId = requestAnimationFrame(() => {
       rafId = null;
+
+      // Compute styles for any pending target (deferred from mousemove).
+      if (pendingTarget) {
+        let style;
+        if (pendingTarget === lastComputedTarget) {
+          style = lastComputedStyle;
+        } else {
+          style = window.getComputedStyle(pendingTarget);
+          lastComputedStyle = style;
+          lastComputedTarget = pendingTarget;
+        }
+        updateTooltipContent(pendingTarget, style);
+        pendingTarget = null;
+      }
+
       if (pendingPosition) {
         positionTooltip(pendingPosition.clientX, pendingPosition.clientY);
       } else if (pendingScroll && hoverTarget) {
@@ -184,7 +194,7 @@
 
     if (target && target !== hoverTarget) {
       hoverTarget = target;
-      updateTooltipContent(target);
+      pendingTarget = target; // defer style computation to rAF
     }
 
     pendingPosition = { clientX, clientY };
