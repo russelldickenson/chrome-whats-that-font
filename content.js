@@ -12,6 +12,11 @@
   let pendingPosition = null;
   let pendingScroll = false;
   
+  // Throttle elementFromPoint — it hit-tests the entire DOM tree and is
+  // expensive. Reuse the last result when called within 50ms.
+  let lastElementFromPoint = 0;
+  const ELEMENT_FROM_POINT_INTERVAL = 50; // ms
+  
   // Cache for computed styles to avoid redundant getComputedStyle calls
   let lastComputedStyle = null;
   let lastComputedTarget = null;
@@ -165,7 +170,17 @@
     if (!active) return;
 
     const { clientX, clientY } = event;
-    const target = document.elementFromPoint(clientX, clientY);
+    let target;
+
+    // Throttle the expensive hit-test; reuse last result when called
+    // within 50ms — no visible difference in tooltip behavior.
+    const now = performance.now();
+    if (now - lastElementFromPoint > ELEMENT_FROM_POINT_INTERVAL) {
+      target = document.elementFromPoint(clientX, clientY);
+      lastElementFromPoint = now;
+    } else {
+      target = hoverTarget;
+    }
 
     if (target && target !== hoverTarget) {
       hoverTarget = target;
