@@ -1,0 +1,58 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from manifest
+        id: version
+        run: echo "version=$(jq -r .version manifest.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Build Chrome extension
+        run: |
+          mkdir chrome-build
+          cp manifest.json background.js content.js tooltip.css README.md LICENSE \
+             whats-that-font-banner.svg whats-that-font.png \
+             chrome-build/
+          mkdir -p chrome-build/icons && cp icons/* chrome-build/icons/
+
+      - name: Build Firefox extension
+        run: |
+          mkdir firefox-build
+          cp manifest.json background.js content.js tooltip.css README.md LICENSE \
+             whats-that-font-banner.svg whats-that-font.png \
+             firefox-build/
+          mkdir -p firefox-build/icons && cp icons/* firefox-build/icons/
+
+      - name: Package Chrome build
+        run: |
+          cd chrome-build
+          zip -r ../whats-that-font-chrome-v${{ steps.version.outputs.version }}.zip .
+
+      - name: Package Firefox build
+        run: |
+          cd firefox-build
+          zip -r ../whats-that-font-firefox-v${{ steps.version.outputs.version }}.xpi .
+
+      - name: Upload Chrome artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: whats-that-font-chrome-v${{ steps.version.outputs.version }}
+          path: whats-that-font-chrome-v${{ steps.version.outputs.version }}.zip
+
+      - name: Upload Firefox artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: whats-that-font-firefox-v${{ steps.version.outputs.version }}
+          path: whats-that-font-firefox-v${{ steps.version.outputs.version }}.xpi
