@@ -26,13 +26,31 @@
 
   const TOOLTIP_ID = "__fontTooltip";
 
-  // Pre-create tooltip once at initialization
+  // Pre-create tooltip once at initialization with value spans.
   function createTooltip() {
     if (tooltipEl) return tooltipEl;
     tooltipEl = document.createElement("div");
     tooltipEl.id = TOOLTIP_ID;
     tooltipEl.setAttribute("aria-hidden", "true");
     document.body.appendChild(tooltipEl);
+
+    // Create the structure once; updateTooltipContent only updates values.
+    tooltipEl.innerHTML = `
+      <div class="wtf-heading">What's That Font?</div>
+      <div class="wtf-row">
+        <span class="wtf-label">Font</span>
+        <span class="wtf-value wtf-font" id="__fontFamily"></span>
+      </div>
+      <div class="wtf-row">
+        <span class="wtf-label">Size</span>
+        <span class="wtf-value" id="__fontSize"></span>
+      </div>
+      <div class="wtf-row">
+        <span class="wtf-label">Weight</span>
+        <span class="wtf-value" id="__fontWeight"></span>
+      </div>
+    `;
+
     return tooltipEl;
   }
 
@@ -90,14 +108,10 @@
     const size = getFontSize(style);
     const weight = getFontWeight(style);
 
-    tooltip.innerHTML = `
-      <div class="wtf-heading">What's That Font?</div>
-      <div class="wtf-row"><span class="wtf-label">Font</span><span class="wtf-value wtf-font">${escapeHtml(family)}</span></div>
-      <div class="wtf-row"><span class="wtf-label">Size</span><span class="wtf-value">${escapeHtml(size)}</span></div>
-      <div class="wtf-row"><span class="wtf-label">Weight</span><span class="wtf-value">${escapeHtml(weight)}</span></div>
-    `;
-
     tooltip.style.display = "block";
+    document.getElementById("__fontFamily").textContent = family;
+    document.getElementById("__fontSize").textContent = size;
+    document.getElementById("__fontWeight").textContent = weight;
   }
 
   function positionTooltip(clientX, clientY) {
